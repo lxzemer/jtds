@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PayController {
 
     @PostMapping("/addPayInfo")
-    private String addPayInfo(){
-
+    private String addPayInfo(String amt,String date,String remake){
+        System.out.println(amt + date + remake);
         return "true";
     }
 }
