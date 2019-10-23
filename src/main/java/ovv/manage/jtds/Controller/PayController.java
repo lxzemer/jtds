@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/jtds")
-public class LoginController {
+public class PayController {
 
-    @PostMapping("/login")
-    private String login(){
-        System.out.println("aaa");
+    @PostMapping("/addPayInfo")
+    private String addPayInfo(){
+
         return "true";
     }
 }
