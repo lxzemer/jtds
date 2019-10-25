@@ -1,13 +1,10 @@
 package ovv.manage.jtds.utils;
 
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Component
-@Lazy
+
 public class JedisUtil {
 
     //Redis服务器IP
@@ -43,10 +40,9 @@ public class JedisUtil {
     }
 
     /**
-     * 获取Jedis实例
-     *
+     * 获取
      */
-    public synchronized static Jedis getJedis() {
+    public static Jedis getJedis() {
         try {
             if (jedisPool != null) {
                 Jedis resource = jedisPool.getResource();
@@ -64,7 +60,7 @@ public class JedisUtil {
      * 释放jedis资源
      * @param jedis
      */
-    public static void returnResource(final Jedis jedis) {
+    public static void returnResource(Jedis jedis) {
         if (jedis != null) {
             jedisPool.returnResource(jedis);
         }
