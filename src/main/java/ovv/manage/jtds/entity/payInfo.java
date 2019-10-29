@@ -1,14 +1,14 @@
-package ovv.manage.jtds.dto;
+package ovv.manage.jtds.entity;
 
 import java.io.Serializable;
 
-public class payInfoDto implements Serializable {
+public class payInfo implements Serializable {
     private String id;
     private String name;
 
-    public payInfoDto(){
+    public payInfo(){
     }
-    public payInfoDto(String id,String name){
+    public payInfo(String id, String name){
         this.id = id;
         this.name = name;
     }

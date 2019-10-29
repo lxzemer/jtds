@@ -1,4 +1,4 @@
-package ovv.manage.jtds.dto;
+package ovv.manage.jtds.entity;
 
 public class ResponseInfo {
     private int code;
