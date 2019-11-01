@@ -1,0 +1,23 @@
+server:
+  port: 9001
+
+spring:
+  datasource:
+    username: root
+    password: Gfq@6096
+    url: jdbc:mysql://106.13.145.143:3306/jtds
+    driver-class-name: com.mysql.jdbc.Driver
+  devtools:
+    restart:
+      enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: ovv.manage.jtds.entity
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug

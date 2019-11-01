@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ovv.manage.jtds.mapper.LoginMapper">
+    <select id="queryUser" parameterType="java.lang.String" resultType="ovv.manage.jtds.entity.UserInfo">
+        select * from jtds_user where sign_code = #{signCode} and password = #{password}
+    </select>
+
+    <insert id="insertUser" parameterType="ovv.manage.jtds.entity.UserInfo">
+        insert into jtds_user values (#{id},#{signCode},#{password},#{createDate},#{isAlive},#{sysNo})
+    </insert>
+</mapper>

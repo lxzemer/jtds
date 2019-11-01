@@ -3,8 +3,8 @@ package ovv.manage.jtds.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ovv.manage.jtds.entity.PayInfo;
 import ovv.manage.jtds.entity.ResponseInfo;
-import ovv.manage.jtds.entity.payInfoPojo;
 import ovv.manage.jtds.utils.JedisUtil;
 import redis.clients.jedis.Jedis;
 
@@ -27,11 +27,16 @@ public class PayController {
     private Object queryPersonName(){
         ResponseInfo info = new ResponseInfo();
         info.setCode(200);
-        ArrayList list = new ArrayList<payInfoPojo>();
-        list.add(new payInfoPojo("1001","杨领迪"));
-        list.add(new payInfoPojo("1002","凌春强"));
+        ArrayList list = new ArrayList<PayInfo>();
         info.setContent(list);
         info.setMsg("查询成功");
+        return info;
+    }
+
+    @GetMapping("/queryPayInfos")
+    private ResponseInfo queryPayInfos(){
+        ResponseInfo info = new ResponseInfo();
+
         return info;
     }
 }
