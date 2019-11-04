@@ -9,11 +9,12 @@ import java.io.Serializable;
 @Setter
 public class PayInfo implements Serializable {
     private String id;
-    private String recordUserid;
+    private String recordUserId;
+    private String recordUserName;
     private String amt;
-    private String persionsId;
-    private String persionsName;
+    private String involveUserId;
+    private String involveUserName;
     private String remake;
     private String createDate;
-    private String isJiezhang;
+    private String isJieZhang;
 }

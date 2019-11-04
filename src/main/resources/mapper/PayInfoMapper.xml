@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ovv.manage.jtds.mapper.LoginMapper">
-    <select id="queryPayInfo" parameterType="java.lang.String" resultType="ovv.manage.jtds.entity.PayInfo">
-        select * from jtds_payinfo where create_date = #{createDate} and record_userid = #{recordUserid}
+<mapper namespace="ovv.manage.jtds.mapper.PayInfoMapper">
+    <select id="queryPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo" resultType="ovv.manage.jtds.entity.PayInfo">
+        select * from jtds_payinfo where 1=1
+        <if test="info != null">
+             <if test="info.createDate != null and info.createDate !='' ">
+              and create_date = #{info.createDate}
+            </if>
+            <if test="info.recordUserName != null and info.recordUserName !='' ">
+                and record_user_id in (select id from jtds_user where sign_code = #{info.recordUserName})
+            </if>
+        </if>
     </select>
 
     <insert id="insertPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo">
-        insert into jtds_payinfo values (#{id},#{recordUserid},#{amt},#{persionsId},#{remake},#{createDate},#{isJiezhang})
+        insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{createDate},#{isJiezhang})
     </insert>
 </mapper>
