@@ -11,8 +11,8 @@ public class LoginServiceImpl {
     @Autowired(required = false)
     private LoginMapper loginmapper;
 
-    public UserInfo queryUser(String signCode, String password) {
-        return loginmapper.queryUser(signCode,password);
+    public UserInfo queryUser(String userName, String password) {
+        return loginmapper.queryUser(userName,password);
     }
 
     public int insertUser(UserInfo user) {

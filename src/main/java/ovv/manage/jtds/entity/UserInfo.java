@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UserInfo {
     private String id;
-    private String signCode;
+    private String userName;
     private String password;
     private String createDate;
     private String isAlive;

@@ -21,9 +21,9 @@ public class LoginController {
     LoginServiceImpl service;
 
     @PostMapping("/login")
-    private ResponseInfo login(String signCode,String password){
+    private ResponseInfo login(String userName,String password){
         ResponseInfo res = new ResponseInfo();
-        UserInfo user = service.queryUser(signCode,password);
+        UserInfo user = service.queryUser(userName,password);
         if (user != null)
             res.setCode(JtdsCommon.SUCCESS);
         else
@@ -32,12 +32,12 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    private ResponseInfo register(String signCode,String password){
+    private ResponseInfo register(String userName,String password){
         ResponseInfo res = new ResponseInfo();
         UserInfo user = new UserInfo();
         user.setId(JtdsUtils.getRandId());
         user.setCreateDate("2019-10-30");
-        user.setSignCode(signCode);
+        user.setUserName(userName);
         user.setPassword(password);
         user.setIsAlive("1");
         user.setSysNo("1007");
