@@ -10,7 +10,7 @@ import ovv.manage.jtds.serviceimpl.PayInfoServiceImpl;
 import ovv.manage.jtds.utils.JedisUtil;
 import redis.clients.jedis.Jedis;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,22 +22,14 @@ public class PayController {
     PayInfoServiceImpl service;
 
     @GetMapping("/addPayInfo")
-    private String addPayInfo(String amt,String date,String remake){
-        System.out.println(amt + date + remake);
+    private String addPayInfo(HttpServletRequest request, String amt, String createDate, String remake){
+        System.out.println(amt + createDate + remake);
+        String[] involveUserId= request.getParameterValues("involveUserId");
+        System.out.println(involveUserId);
         Jedis jedis = JedisUtil.getJedis();
         jedis.set("amt","amt");
         return "true";
 
-    }
-
-    @GetMapping("/queryPersonName")
-    private Object queryPersonName(){
-        ResponseInfo info = new ResponseInfo();
-        info.setCode(200);
-        ArrayList list = new ArrayList<PayInfo>();
-        info.setContent(list);
-        info.setMsg("查询成功");
-        return info;
     }
 
     @GetMapping("/queryPayInfo")

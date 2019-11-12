@@ -6,6 +6,10 @@
         select * from jtds_user where user_name = #{userName} and password = #{password}
     </select>
 
+    <select id="queryUserName" resultType="ovv.manage.jtds.entity.UserInfo">
+        select id,user_name from jtds_user
+    </select>
+
     <insert id="insertUser" parameterType="ovv.manage.jtds.entity.UserInfo">
         insert into jtds_user values (#{id},#{userName},#{password},#{createDate},#{isAlive},#{sysNo})
     </insert>

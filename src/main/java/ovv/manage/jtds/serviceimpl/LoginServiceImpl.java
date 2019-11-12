@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ovv.manage.jtds.entity.UserInfo;
 import ovv.manage.jtds.mapper.LoginMapper;
 
+import java.util.List;
+
 @Service
 public class LoginServiceImpl {
 
@@ -17,5 +19,9 @@ public class LoginServiceImpl {
 
     public int insertUser(UserInfo user) {
         return loginmapper.insertUser(user);
+    }
+
+    public List queryUserName(){
+        return loginmapper.queryUserName();
     }
 }

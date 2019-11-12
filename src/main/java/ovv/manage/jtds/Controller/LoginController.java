@@ -1,15 +1,19 @@
 package ovv.manage.jtds.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ovv.manage.jtds.entity.PayInfo;
 import ovv.manage.jtds.entity.ResponseInfo;
 import ovv.manage.jtds.entity.UserInfo;
 import ovv.manage.jtds.serviceimpl.LoginServiceImpl;
 import ovv.manage.jtds.utils.JtdsCommon;
 import ovv.manage.jtds.utils.JtdsUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -47,5 +51,15 @@ public class LoginController {
         else
             res.setCode(JtdsCommon.FAIL);
         return res;
+    }
+
+    @GetMapping("/queryUserName")
+    private Object queryUserName(){
+        ResponseInfo info = new ResponseInfo();
+        info.setCode(200);
+        List list = service.queryUserName();
+        info.setContent(list);
+        info.setMsg("查询成功");
+        return info;
     }
 }
