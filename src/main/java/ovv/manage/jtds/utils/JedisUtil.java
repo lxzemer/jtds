@@ -4,6 +4,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.io.*;
+
 
 public class JedisUtil {
 
@@ -64,5 +66,57 @@ public class JedisUtil {
         if (jedis != null) {
             jedisPool.returnResource(jedis);
         }
+    }
+
+    public static byte[] parseToBytes(Object obj){
+        byte[] pBytes = null;
+        ByteArrayOutputStream ba = null;
+        ObjectOutputStream oos = null;
+        if(obj == null)
+            return pBytes;
+        try {
+            ba = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(ba);
+            oos.writeObject(obj);
+            pBytes = ba.toByteArray();
+        }catch (IOException e){
+            e.printStackTrace();
+            return pBytes;
+        }finally {
+            close(null,ba);
+            close(null,oos);
+        }
+        return pBytes;
+    }
+
+    private static void close(InputStream is,OutputStream os) {
+        try{
+            if(is != null)
+                is.close();
+            if(os != null)
+                os.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static Object parseToObject(byte[] pBytesResp){
+        Object obj = null;
+        ByteArrayInputStream bi = null;
+        ObjectInputStream oi = null;
+        if(pBytesResp == null)
+            return obj;
+        try {
+            bi = new ByteArrayInputStream(pBytesResp);
+            oi = new ObjectInputStream(bi);
+            obj = oi.readObject();
+        }catch (Exception e){
+            e.printStackTrace();
+            return obj;
+        }finally {
+            close(bi,null);
+            close(oi,null);
+        }
+        return obj;
     }
 }

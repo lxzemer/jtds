@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ovv.manage.jtds.entity.ResponseInfo;
 import ovv.manage.jtds.entity.UserInfo;
 import ovv.manage.jtds.serviceimpl.LoginServiceImpl;
+import ovv.manage.jtds.utils.JedisUtil;
 import ovv.manage.jtds.utils.JtdsCommon;
 import ovv.manage.jtds.utils.JtdsUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,9 +25,11 @@ public class LoginController {
     LoginServiceImpl service;
 
     @PostMapping("/login")
-    private ResponseInfo login(String userName,String password){
+    private ResponseInfo login(HttpServletRequest request, String userName, String password){
         ResponseInfo res = new ResponseInfo();
+        HttpSession session = request.getSession();
         UserInfo user = service.queryUser(userName,password);
+        JedisUtil.getJedis().set(session.getId().getBytes(),JedisUtil.parseToBytes(user));
         res.setContent(user);
         if (user != null)
             res.setCode(JtdsCommon.rspSuccess);
@@ -34,7 +39,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    private ResponseInfo register(String userName,String password){
+    private ResponseInfo register(HttpServletRequest request,String userName,String password){
         ResponseInfo res = new ResponseInfo();
         UserInfo user = new UserInfo();
         user.setId(JtdsUtils.getRandId());
@@ -44,6 +49,9 @@ public class LoginController {
         user.setIsAlive("1");
         user.setSysNo(JtdsCommon.sysNo);
         int modifyNum = service.insertUser(user);
+        res.setContent(user);
+        HttpSession session = request.getSession();
+        JedisUtil.getJedis().set(session.getId().getBytes(),JedisUtil.parseToBytes(user));
         if (modifyNum > 0)
             res.setCode(JtdsCommon.rspSuccess);
         else
