@@ -10,4 +10,5 @@ import java.util.List;
 public interface PayInfoMapper {
 
     List queryPayInfo(@Param("info") PayInfo info);
+    int addPayInfo(@Param("info") PayInfo info);
 }

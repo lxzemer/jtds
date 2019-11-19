@@ -16,4 +16,8 @@ public class PayInfoServiceImpl {
     public List queryPayInfo(PayInfo info) {
         return mapper.queryPayInfo(info);
     }
+
+    public int addPayInfo(PayInfo info){
+        return mapper.addPayInfo(info);
+    }
 }

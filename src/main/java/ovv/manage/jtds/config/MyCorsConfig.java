@@ -2,6 +2,8 @@ package ovv.manage.jtds.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -30,6 +32,15 @@ class WebMvcConfg extends WebMvcConfigurationSupport {
         source.registerCorsConfiguration("*//**", config);
         return new CorsFilter(source);
     }
+
+    @Bean
+    public CookieSerializer httpSessionIdResolver() {
+        DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();
+        // 取消仅限同一站点设置
+        cookieSerializer.setSameSite(null);
+        return cookieSerializer;
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new CommonInterceptor());
