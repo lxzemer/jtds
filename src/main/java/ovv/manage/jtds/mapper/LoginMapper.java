@@ -14,4 +14,6 @@ public interface LoginMapper {
     int insertUser(UserInfo user);
 
     List queryUserName();
+
+    UserInfo queryUserById(@Param("id")String id);
 }

@@ -24,4 +24,8 @@ public class LoginServiceImpl {
     public List queryUserName(){
         return loginmapper.queryUserName();
     }
+
+    public UserInfo queryUserById(String id){
+        return loginmapper.queryUserById(id);
+    }
 }

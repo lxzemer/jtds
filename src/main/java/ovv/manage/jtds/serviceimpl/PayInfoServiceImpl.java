@@ -18,6 +18,6 @@ public class PayInfoServiceImpl {
     }
 
     public int addPayInfo(PayInfo info){
-        return mapper.addPayInfo(info);
+        return mapper.insertPayInfo(info);
     }
 }

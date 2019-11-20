@@ -5,8 +5,8 @@
     <select id="queryPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo" resultType="ovv.manage.jtds.entity.PayInfo">
         select * from jtds_payinfo where 1=1
         <if test="info != null">
-             <if test="info.createDate != null and info.createDate !='' ">
-              and create_date = #{info.createDate}
+             <if test="info.payDate != null and info.payDate !='' ">
+              and pay_date = #{info.payDate}
             </if>
             <if test="info.recordUserName != null and info.recordUserName !='' ">
                 and record_user_id in (select id from jtds_user where sign_code = #{info.recordUserName})
@@ -15,6 +15,6 @@
     </select>
 
     <insert id="insertPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo">
-        insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{createDate},#{isJiezhang})
+        insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{payDate},#{updateTime},#{isPay})
     </insert>
 </mapper>

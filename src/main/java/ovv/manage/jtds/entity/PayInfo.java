@@ -8,13 +8,14 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class PayInfo implements Serializable {
-    private String id;
+    private Long id;
     private String recordUserId;
     private String recordUserName;
     private String amt;
     private String involveUserId;
     private String involveUserName;
     private String remake;
-    private String createDate;
-    private String isJieZhang;
+    private String payDate;
+    private String updateTime;
+    private String isPay;
 }
