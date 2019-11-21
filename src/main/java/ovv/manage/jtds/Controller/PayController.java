@@ -54,7 +54,6 @@ public class PayController {
                 userNames += person.getUserName()+",";
         }
         dto.setInvolveUserName(userNames.substring(0,userNames.length()-1));
-        dto.setIsPay("0");
         dto.setRecordUserId(user.getId());
         dto.setRecordUserName(user.getUserName());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -69,10 +68,15 @@ public class PayController {
         ResponseInfo rep = new ResponseInfo();
         PayInfo dto = new PayInfo();
         List payInfos = payService.queryPayInfo(dto);
-        Arrays.toString(payInfos.toArray());
         rep.setCode(JtdsCommon.rspSuccess);
         rep.setContent(payInfos);
         rep.setTotal(payInfos.size());
+        return rep;
+    }
+
+    @GetMapping("/queryPayAccount")
+    private ResponseInfo queryPayAccount(){
+        ResponseInfo rep = new ResponseInfo();
         return rep;
     }
 }

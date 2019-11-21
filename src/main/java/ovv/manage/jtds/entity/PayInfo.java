@@ -17,5 +17,5 @@ public class PayInfo implements Serializable {
     private String remake;
     private String payDate;
     private String updateTime;
-    private String isPay;
+    private int accountNo;
 }

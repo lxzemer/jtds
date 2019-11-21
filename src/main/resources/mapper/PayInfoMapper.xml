@@ -15,6 +15,6 @@
     </select>
 
     <insert id="insertPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo">
-        insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{payDate},#{updateTime},#{isPay})
+        insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{payDate},#{updateTime},#{accountNo})
     </insert>
 </mapper>
