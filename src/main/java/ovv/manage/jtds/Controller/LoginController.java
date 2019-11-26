@@ -26,12 +26,14 @@ public class LoginController {
     private ResponseInfo login(String userName, String password){
         ResponseInfo res = new ResponseInfo();
         UserInfo user = service.queryUser(userName,password);
-        JedisUtil.getJedis().set(user.getId().getBytes(),JedisUtil.parseToBytes(user));
         res.setContent(user);
-        if (user != null)
+        if (user != null) {
             res.setCode(JtdsCommon.rspSuccess);
-        else
+            JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
+        } else {
+            res.setMsg("用户不存在！");
             res.setCode(JtdsCommon.rspError);
+        }
         return res;
     }
 
@@ -39,7 +41,7 @@ public class LoginController {
     private ResponseInfo register(String userName,String password){
         ResponseInfo res = new ResponseInfo();
         UserInfo user = new UserInfo();
-        user.setId(JtdsUtils.getRandId());
+        user.setId(JtdsUtils.getRandUserId());
         user.setCreateDate("2019-10-30");
         user.setUserName(userName);
         user.setPassword(password);
@@ -47,7 +49,7 @@ public class LoginController {
         user.setSysNo(JtdsCommon.sysNo);
         int modifyNum = service.insertUser(user);
         res.setContent(user);
-        JedisUtil.getJedis().set(user.getId().getBytes(),JedisUtil.parseToBytes(user));
+        JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
         if (modifyNum > 0)
             res.setCode(JtdsCommon.rspSuccess);
         else

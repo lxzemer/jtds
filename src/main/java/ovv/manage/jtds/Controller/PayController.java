@@ -12,7 +12,6 @@ import ovv.manage.jtds.utils.JtdsCommon;
 import ovv.manage.jtds.utils.JtdsUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +56,11 @@ public class PayController {
         dto.setRecordUserId(user.getId());
         dto.setRecordUserName(user.getUserName());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        dto.setUpdateTime(df.format(new Date()));
+        String date = df.format(new Date());
+        dto.setUpdateTime(date);
+        dto.setCreateDate(date);
+        dto.setAccountNo(JedisUtil.getJedis().get("accountNo"));
+        dto.setIsAccount(JtdsCommon.NO);
         payService.addPayInfo(dto);
         rsp.setCode(JtdsCommon.rspSuccess);
         return rsp;

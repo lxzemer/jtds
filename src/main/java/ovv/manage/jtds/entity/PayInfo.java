@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class PayInfo implements Serializable {
-    private Long id;
+    private String id;
     private String recordUserId;
     private String recordUserName;
     private String amt;
@@ -17,5 +17,7 @@ public class PayInfo implements Serializable {
     private String remake;
     private String payDate;
     private String updateTime;
-    private int accountNo;
+    private String createDate;
+    private String accountNo;
+    private int isAccount;
 }
