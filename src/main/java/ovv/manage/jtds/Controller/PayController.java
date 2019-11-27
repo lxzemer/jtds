@@ -2,6 +2,7 @@ package ovv.manage.jtds.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ovv.manage.jtds.entity.PayAccount;
 import ovv.manage.jtds.entity.PayInfo;
 import ovv.manage.jtds.entity.ResponseInfo;
 import ovv.manage.jtds.entity.UserInfo;
@@ -13,6 +14,7 @@ import ovv.manage.jtds.utils.JtdsUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -67,9 +69,11 @@ public class PayController {
     }
 
     @GetMapping("/queryPayInfo")
-    private ResponseInfo queryPayInfo(){
+    private ResponseInfo queryPayInfo(String recordUserName,String payDate){
         ResponseInfo rep = new ResponseInfo();
         PayInfo dto = new PayInfo();
+        dto.setRecordUserName(recordUserName);
+        dto.setPayDate(payDate);
         List payInfos = payService.queryPayInfo(dto);
         rep.setCode(JtdsCommon.rspSuccess);
         rep.setContent(payInfos);
@@ -80,6 +84,7 @@ public class PayController {
     @GetMapping("/queryPayAccount")
     private ResponseInfo queryPayAccount(){
         ResponseInfo rep = new ResponseInfo();
+        //List<PayAccount> accounts = payService.queryPayAccount();
         return rep;
     }
 }

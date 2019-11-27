@@ -11,4 +11,5 @@ public interface PayInfoMapper {
 
     List queryPayInfo(@Param("info") PayInfo info);
     int insertPayInfo(PayInfo info);
+    List queryPayAccount();
 }

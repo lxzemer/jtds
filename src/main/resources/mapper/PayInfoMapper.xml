@@ -9,7 +9,7 @@
               and pay_date = #{info.payDate}
             </if>
             <if test="info.recordUserName != null and info.recordUserName !='' ">
-                and record_user_id in (select id from jtds_user where sign_code = #{info.recordUserName})
+                and record_user_name like "%"#{info.recordUserName}"%"
             </if>
         </if>
     </select>
@@ -17,4 +17,12 @@
     <insert id="insertPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo">
         insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{payDate},#{updateTime},#{accountNo},#{isAccount},#{createDate})
     </insert>
+
+    <select id="queryPayAccount" resultType="ovv.manage.jtds.entity.PayAccount">
+       select u.id user_id,u.user_name,p.involve_user_id,
+       (case when p.amt is null then 0 else p.amt end) has_pay,(0) should_pay,(0) is_account
+        from jtds_user u
+        left join jtds_payinfo p on p.record_user_id = u.id;
+        where p.is_account = 0
+    </select>
 </mapper>
