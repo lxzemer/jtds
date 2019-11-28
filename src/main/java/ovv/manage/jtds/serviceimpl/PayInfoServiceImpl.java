@@ -22,7 +22,23 @@ public class PayInfoServiceImpl {
         return mapper.insertPayInfo(info);
     }
 
-    public List queryPayAccount() {
-        return mapper.queryPayAccount();
+    public List queryPayAccount(PayAccount info) {
+        return mapper.queryPayAccount(info);
+    }
+
+    public int updatePayAccount(PayAccount info) {
+        return mapper.updatePayAccount(info);
+    }
+
+    public int insertPayAccount(PayAccount info) {
+        return mapper.insertPayAccount(info);
+    }
+
+    public void sudoPayAccount() {
+        mapper.sudoPayAccount();
+    }
+
+    public void sudoPayInfo() {
+        mapper.sudoPayInfo();
     }
 }

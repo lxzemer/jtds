@@ -28,12 +28,20 @@ public class LoginController {
         UserInfo user = service.queryUser(userName,password);
         res.setContent(user);
         if (user != null) {
-            res.setCode(JtdsCommon.rspSuccess);
+            res.setCode(JtdsCommon.SUCCESS);
             JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
         } else {
             res.setMsg("用户不存在！");
-            res.setCode(JtdsCommon.rspError);
+            res.setCode(JtdsCommon.ERROR);
         }
+        return res;
+    }
+
+    @PostMapping("/logout")
+    private ResponseInfo logout(String id){
+        ResponseInfo res = new ResponseInfo();
+        res.setCode(JtdsCommon.SUCCESS);
+        JedisUtil.getJedis().del(id.getBytes());
         return res;
     }
 
@@ -51,16 +59,16 @@ public class LoginController {
         res.setContent(user);
         JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
         if (modifyNum > 0)
-            res.setCode(JtdsCommon.rspSuccess);
+            res.setCode(JtdsCommon.SUCCESS);
         else
-            res.setCode(JtdsCommon.rspError);
+            res.setCode(JtdsCommon.ERROR);
         return res;
     }
 
     @GetMapping("/queryUserName")
     private Object queryUserName(){
         ResponseInfo info = new ResponseInfo();
-        info.setCode(JtdsCommon.rspSuccess);
+        info.setCode(JtdsCommon.SUCCESS);
         List list = service.queryUserName();
         info.setContent(list);
         info.setMsg("查询成功");

@@ -11,6 +11,9 @@
             <if test="info.recordUserName != null and info.recordUserName !='' ">
                 and record_user_name like "%"#{info.recordUserName}"%"
             </if>
+            <if test="info.isAccount != null and info.isAccount !='' ">
+                and is_account = #{info.isAccount}
+            </if>
         </if>
     </select>
 
@@ -18,11 +21,32 @@
         insert into jtds_payinfo values (#{id},#{recordUserId},#{recordUserName},#{amt},#{involveUserId},#{involveUserName},#{remake},#{payDate},#{updateTime},#{accountNo},#{isAccount},#{createDate})
     </insert>
 
-    <select id="queryPayAccount" resultType="ovv.manage.jtds.entity.PayAccount">
-       select u.id user_id,u.user_name,p.involve_user_id,
-       (case when p.amt is null then 0 else p.amt end) has_pay,(0) should_pay,(0) is_account
-        from jtds_user u
-        left join jtds_payinfo p on p.record_user_id = u.id;
-        where p.is_account = 0
+    <select id="queryPayAccount" parameterType="ovv.manage.jtds.entity.PayAccount" resultType="ovv.manage.jtds.entity.PayAccount">
+       select * from jtds_pay_account where 1=1
+        <if test="info != null">
+            <if test="info.isAccount != null and info.isAccount !='' ">
+                and is_account = #{info.isAccount}
+            </if>
+            <if test="info.userId != null and info.userId !='' ">
+                and user_id = #{info.userId}
+            </if>
+        </if>
     </select>
+
+    <insert id="insertPayAccount" parameterType="ovv.manage.jtds.entity.PayInfo">
+        insert into jtds_pay_account values (#{id},#{userId},#{userName},#{hasPay},#{shouldPay},#{accountNo},#{updateTime},#{isAccount})
+    </insert>
+
+    <update id="updatePayAccount" parameterType="ovv.manage.jtds.entity.PayInfo">
+        update jtds_pay_account set has_pay = #{hasPay},should_pay = #{shouldPay},update_time = #{updateTime} where id = #{id}
+    </update>
+
+    <update id="sudoPayAccount">
+        update jtds_pay_account set is_account = 1 where is_account = 0
+    </update>
+
+    <update id="sudoPayInfo">
+        update jtds_payinfo set is_account = 1 where is_account = 0
+    </update>
+
 </mapper>

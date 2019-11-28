@@ -13,6 +13,7 @@ public class PayAccount implements Serializable {
     private String userName;
     private String hasPay;
     private String shouldPay;
-    private String account_no;
+    private String accountNo;
+    private String updateTime;
     private int isAccount;
 }

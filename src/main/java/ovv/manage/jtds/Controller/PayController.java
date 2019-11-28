@@ -12,9 +12,6 @@ import ovv.manage.jtds.utils.JedisUtil;
 import ovv.manage.jtds.utils.JtdsCommon;
 import ovv.manage.jtds.utils.JtdsUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -29,15 +26,20 @@ public class PayController {
     @PostMapping(path = "/addPayInfo")
     private ResponseInfo addPayInfo(String userId, String amt, String payDate, String remake, String involveUserId){
         ResponseInfo rsp = new ResponseInfo();
+        if(userId == null || "".equals(userId)){
+            rsp.setMsg("请先登陆！");
+            rsp.setCode(JtdsCommon.ERROR);
+            return rsp;
+        }
         Object obj = JedisUtil.parseToObject(JedisUtil.getJedis().get(userId.getBytes()));
         if(obj == null){
-            rsp.setMsg("请先登陆！");
-            rsp.setCode(JtdsCommon.rspError);
+            rsp.setMsg("登陆已过期，请重新登陆！");
+            rsp.setCode(JtdsCommon.OVERLOAD);
             return rsp;
         }
         if(involveUserId == null || "".equals(involveUserId)) {
             rsp.setMsg("请选择承担人员！");
-            rsp.setCode(JtdsCommon.rspError);
+            rsp.setCode(JtdsCommon.ERROR);
             return rsp;
         }
         UserInfo user = (UserInfo)obj;
@@ -57,14 +59,12 @@ public class PayController {
         dto.setInvolveUserName(userNames.substring(0,userNames.length()-1));
         dto.setRecordUserId(user.getId());
         dto.setRecordUserName(user.getUserName());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String date = df.format(new Date());
-        dto.setUpdateTime(date);
-        dto.setCreateDate(date);
+        dto.setUpdateTime(JtdsUtils.getCurrentDate());
+        dto.setCreateDate(JtdsUtils.getCurrentDate());
         dto.setAccountNo(JedisUtil.getJedis().get("accountNo"));
         dto.setIsAccount(JtdsCommon.NO);
         payService.addPayInfo(dto);
-        rsp.setCode(JtdsCommon.rspSuccess);
+        rsp.setCode(JtdsCommon.SUCCESS);
         return rsp;
     }
 
@@ -75,7 +75,7 @@ public class PayController {
         dto.setRecordUserName(recordUserName);
         dto.setPayDate(payDate);
         List payInfos = payService.queryPayInfo(dto);
-        rep.setCode(JtdsCommon.rspSuccess);
+        rep.setCode(JtdsCommon.SUCCESS);
         rep.setContent(payInfos);
         rep.setTotal(payInfos.size());
         return rep;
@@ -84,7 +84,21 @@ public class PayController {
     @GetMapping("/queryPayAccount")
     private ResponseInfo queryPayAccount(){
         ResponseInfo rep = new ResponseInfo();
-        //List<PayAccount> accounts = payService.queryPayAccount();
+        PayAccount pay = new PayAccount();
+        pay.setIsAccount(JtdsCommon.NO);
+        List accounts = payService.queryPayAccount(pay);
+        rep.setCode(JtdsCommon.SUCCESS);
+        rep.setContent(accounts);
+        rep.setTotal(accounts.size());
+        return rep;
+    }
+
+    @GetMapping("/sudoPayAccount")
+    private ResponseInfo sudoPayAccount(){
+        ResponseInfo rep = new ResponseInfo();
+        payService.sudoPayAccount();
+        payService.sudoPayInfo();
+        rep.setCode(JtdsCommon.SUCCESS);
         return rep;
     }
 }
