@@ -6,10 +6,12 @@ import ovv.manage.jtds.entity.PayAccount;
 import ovv.manage.jtds.entity.PayInfo;
 import ovv.manage.jtds.entity.ResponseInfo;
 import ovv.manage.jtds.entity.UserInfo;
+import ovv.manage.jtds.runner.ovThreadPool;
+import ovv.manage.jtds.runner.task.payAccountTask;
 import ovv.manage.jtds.serviceimpl.LoginServiceImpl;
 import ovv.manage.jtds.serviceimpl.PayInfoServiceImpl;
 import ovv.manage.jtds.utils.JedisUtil;
-import ovv.manage.jtds.utils.JtdsCommon;
+import ovv.manage.jtds.utils.Common;
 import ovv.manage.jtds.utils.JtdsUtils;
 
 import java.util.List;
@@ -28,18 +30,18 @@ public class PayController {
         ResponseInfo rsp = new ResponseInfo();
         if(userId == null || "".equals(userId)){
             rsp.setMsg("请先登陆！");
-            rsp.setCode(JtdsCommon.ERROR);
+            rsp.setCode(Common.ERROR);
             return rsp;
         }
         Object obj = JedisUtil.parseToObject(JedisUtil.getJedis().get(userId.getBytes()));
         if(obj == null){
             rsp.setMsg("登陆已过期，请重新登陆！");
-            rsp.setCode(JtdsCommon.OVERLOAD);
+            rsp.setCode(Common.OVERLOAD);
             return rsp;
         }
         if(involveUserId == null || "".equals(involveUserId)) {
             rsp.setMsg("请选择承担人员！");
-            rsp.setCode(JtdsCommon.ERROR);
+            rsp.setCode(Common.ERROR);
             return rsp;
         }
         UserInfo user = (UserInfo)obj;
@@ -62,9 +64,10 @@ public class PayController {
         dto.setUpdateTime(JtdsUtils.getCurrentDate());
         dto.setCreateDate(JtdsUtils.getCurrentDate());
         dto.setAccountNo(JedisUtil.getJedis().get("accountNo"));
-        dto.setIsAccount(JtdsCommon.NO);
+        dto.setIsAccount(Common.NO);
         payService.addPayInfo(dto);
-        rsp.setCode(JtdsCommon.SUCCESS);
+        rsp.setCode(Common.SUCCESS);
+        ovThreadPool.pool.submit(new payAccountTask());
         return rsp;
     }
 
@@ -75,7 +78,7 @@ public class PayController {
         dto.setRecordUserName(recordUserName);
         dto.setPayDate(payDate);
         List payInfos = payService.queryPayInfo(dto);
-        rep.setCode(JtdsCommon.SUCCESS);
+        rep.setCode(Common.SUCCESS);
         rep.setContent(payInfos);
         rep.setTotal(payInfos.size());
         return rep;
@@ -85,9 +88,9 @@ public class PayController {
     private ResponseInfo queryPayAccount(){
         ResponseInfo rep = new ResponseInfo();
         PayAccount pay = new PayAccount();
-        pay.setIsAccount(JtdsCommon.NO);
+        pay.setIsAccount(Common.NO);
         List accounts = payService.queryPayAccount(pay);
-        rep.setCode(JtdsCommon.SUCCESS);
+        rep.setCode(Common.SUCCESS);
         rep.setContent(accounts);
         rep.setTotal(accounts.size());
         return rep;
@@ -98,7 +101,7 @@ public class PayController {
         ResponseInfo rep = new ResponseInfo();
         payService.sudoPayAccount();
         payService.sudoPayInfo();
-        rep.setCode(JtdsCommon.SUCCESS);
+        rep.setCode(Common.SUCCESS);
         return rep;
     }
 }

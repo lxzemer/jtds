@@ -12,8 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@Component
-@Order(1)
+//@Component
+//@Order(1)
 public class scheduledRunner implements ApplicationRunner {
 
     ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(5);

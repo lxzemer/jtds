@@ -9,7 +9,7 @@ import ovv.manage.jtds.entity.ResponseInfo;
 import ovv.manage.jtds.entity.UserInfo;
 import ovv.manage.jtds.serviceimpl.LoginServiceImpl;
 import ovv.manage.jtds.utils.JedisUtil;
-import ovv.manage.jtds.utils.JtdsCommon;
+import ovv.manage.jtds.utils.Common;
 import ovv.manage.jtds.utils.JtdsUtils;
 
 import java.util.HashMap;
@@ -28,11 +28,11 @@ public class LoginController {
         UserInfo user = service.queryUser(userName,password);
         res.setContent(user);
         if (user != null) {
-            res.setCode(JtdsCommon.SUCCESS);
+            res.setCode(Common.SUCCESS);
             JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
         } else {
             res.setMsg("用户不存在！");
-            res.setCode(JtdsCommon.ERROR);
+            res.setCode(Common.ERROR);
         }
         return res;
     }
@@ -40,7 +40,7 @@ public class LoginController {
     @PostMapping("/logout")
     private ResponseInfo logout(String id){
         ResponseInfo res = new ResponseInfo();
-        res.setCode(JtdsCommon.SUCCESS);
+        res.setCode(Common.SUCCESS);
         JedisUtil.getJedis().del(id.getBytes());
         return res;
     }
@@ -54,21 +54,21 @@ public class LoginController {
         user.setUserName(userName);
         user.setPassword(password);
         user.setIsAlive("1");
-        user.setSysNo(JtdsCommon.sysNo);
+        user.setSysNo(Common.sysNo);
         int modifyNum = service.insertUser(user);
         res.setContent(user);
         JedisUtil.getJedis().setex(user.getId().getBytes(),30*60,JedisUtil.parseToBytes(user));
         if (modifyNum > 0)
-            res.setCode(JtdsCommon.SUCCESS);
+            res.setCode(Common.SUCCESS);
         else
-            res.setCode(JtdsCommon.ERROR);
+            res.setCode(Common.ERROR);
         return res;
     }
 
     @GetMapping("/queryUserName")
     private Object queryUserName(){
         ResponseInfo info = new ResponseInfo();
-        info.setCode(JtdsCommon.SUCCESS);
+        info.setCode(Common.SUCCESS);
         List list = service.queryUserName();
         info.setContent(list);
         info.setMsg("查询成功");

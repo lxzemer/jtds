@@ -1,7 +1,7 @@
 package ovv.manage.jtds.utils;
 
 import java.util.concurrent.atomic.AtomicLong;
-public class JtdsCommon {
+public class Common {
 
     public static int YES = 1;
     public static int NO = 0;

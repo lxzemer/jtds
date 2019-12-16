@@ -6,9 +6,9 @@ import ovv.manage.jtds.entity.UserInfo;
 import ovv.manage.jtds.serviceimpl.LoginServiceImpl;
 import ovv.manage.jtds.serviceimpl.PayInfoServiceImpl;
 import ovv.manage.jtds.utils.JedisUtil;
-import ovv.manage.jtds.utils.JtdsCommon;
+import ovv.manage.jtds.utils.Common;
 import ovv.manage.jtds.utils.JtdsUtils;
-import ovv.manage.jtds.utils.springBeanUtil;
+import ovv.manage.jtds.utils.SpringUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +19,11 @@ public class payAccountTask implements Runnable {
     LoginServiceImpl loginService;
 
     public payAccountTask(){
-        this.payService = springBeanUtil.getBean(PayInfoServiceImpl.class);
+        this.payService = SpringUtil.getBean(PayInfoServiceImpl.class);
         /*if(payService == null){
             payService = new PayInfoServiceImpl();
         }*/
-        this.loginService = springBeanUtil.getBean(LoginServiceImpl.class);
+        this.loginService = SpringUtil.getBean(LoginServiceImpl.class);
         /*if(payService == null){
             payService = new PayInfoServiceImpl();
         }*/
@@ -62,7 +62,7 @@ public class payAccountTask implements Runnable {
             for(UserInfo user: users ){
                 PayAccount oneUser = new PayAccount();
                 oneUser.setUserId(user.getId());
-                oneUser.setIsAccount(JtdsCommon.NO);
+                oneUser.setIsAccount(Common.NO);
                 oneUser.setUserName(user.getUserName());
                 oneUser.setAccountNo(JedisUtil.getJedis().get("accountNo"));
                 oneUser.setHasPay(JtdsUtils.getMapValue(hasPayMap,user.getId(),"0"));
