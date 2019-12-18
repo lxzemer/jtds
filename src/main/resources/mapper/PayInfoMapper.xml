@@ -15,6 +15,7 @@
                 and is_account = #{info.isAccount}
             </if>
         </if>
+        order by pay_date desc
     </select>
 
     <insert id="insertPayInfo" parameterType="ovv.manage.jtds.entity.PayInfo">
@@ -24,7 +25,7 @@
     <select id="queryPayAccount" parameterType="ovv.manage.jtds.entity.PayAccount" resultType="ovv.manage.jtds.entity.PayAccount">
        select * from jtds_pay_account where 1=1
         <if test="info != null">
-            <if test="info.isAccount != null and info.isAccount !='' ">
+            <if test="info.isAccount != null ">
                 and is_account = #{info.isAccount}
             </if>
             <if test="info.userId != null and info.userId !='' ">

@@ -20,6 +20,4 @@ mybatis:
 #showSql
 logging:
   level:
-    com:
-      example:
-        mapper : debug
+    ovv.manage.jtds.mapper: debug
