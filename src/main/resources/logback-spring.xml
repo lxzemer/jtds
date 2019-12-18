@@ -3,9 +3,9 @@
 
     <!-- 彩色日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d %green(%5p) %boldMagenta(${PID}) --- [ %t ] %blue(%-50logger{50}) : %m%n"/>
+              value="%d %green(%5p) %boldMagenta(${PID}) --- [ %20t ] %blue(%-50logger{50}) : %m%n"/>
     <property name="FILE_LOG_PATTERN"
-              value="%d %5p ${PID} --- [ %t ] %-50logger{50} : %m%n"/>
+              value="%d %5p ${PID} --- [ %20t ] %-50logger{50} : %m%n"/>
 
     <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
     <!-- appender是configuration的子节点，是负责写日志的组件。 -->
