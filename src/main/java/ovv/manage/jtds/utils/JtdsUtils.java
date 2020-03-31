@@ -100,4 +100,5 @@ public class JtdsUtils {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(new Date());
     }
+
 }
